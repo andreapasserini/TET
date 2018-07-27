@@ -1,0 +1,15 @@
+SameBib(Bib,Bib)
+
+type(Author2WordAuthor(Author,WordAuthor))
+type(Bib2Author(Bib,Author))
+type(Bib2Title(Bib,Title))
+type(Bib2Venue(Bib,Venue))
+type(Title2WordTitle(Title,WordTitle))
+type(Venue2WordVenue(Venue,WordVenue))
+
+rmode(Author2WordAuthor(+-,+-))
+rmode(Bib2Author(+-,+-))
+rmode(Bib2Title(+-,+-))
+rmode(Bib2Venue(+-,+-))
+rmode(Title2WordTitle(+-,+-))
+rmode(Venue2WordVenue(+-,+-))

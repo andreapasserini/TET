@@ -1,0 +1,8 @@
+hindexOver7(author)
+
+type(author_paper(author,paper))
+type(paper_paper(paper,paper))
+type(hindexOver7(author))
+
+rmode(author_paper(+-,+-))
+rmode(paper_paper(+-,+-))

@@ -1,0 +1,6 @@
+#create database
+mysql < create_db.sql
+
+#execute run.sh (WARNING: this procedure performs full tet structure learning in a 5-fold cross validation setting, plus knn classification. It will take some time..)
+./run.sh <dbuser> <dbpwd>
+
