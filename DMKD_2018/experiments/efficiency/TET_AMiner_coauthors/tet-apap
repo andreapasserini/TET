@@ -1,0 +1,17 @@
+{NODE {FUNCTION (logistic,-3,1.0)}
+  {TYPE ()}
+  {CHILD (paper0) {NODE {FUNCTION (logistic,-3,1.0)}
+                        {TYPE (author_paper(author0,paper0))}
+                        {CHILD (author1)
+                          {NODE{FUNCTION (logistic,-3,1.0)}
+                               {TYPE (author_paper(author1,paper0))}
+                               {CHILD (paper1)
+                                 {NODE{FUNCTION (identity)}
+                                       {TYPE (author_paper(author1,paper1))}
+                                 }
+                               }
+                           }
+                        }
+                    }
+  }
+}

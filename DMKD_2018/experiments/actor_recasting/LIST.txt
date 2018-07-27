@@ -1,0 +1,18 @@
+Al_Pacino_1994.txt tet.1994 972967 Chazz Palminteri
+Burt_Reynolds_1976.txt tet.1976 429077 Harrison I Ford
+Daniel_Day-Lewis_2000.txt tet.2000 926373 Viggo Mortensen
+Denzel_Washington_1994.txt tet.1994 772886 Brad Pitt
+Hugh_Jackman_2005.txt tet.2005 163123 Daniel I Craig
+Jack_Nicholson_1973.txt tet.1973 905910 Al I Pacino
+James_Caan_1974.txt tet.1974 655632 Jack I Nicholson
+Johnny_Depp_1985.txt tet.1985 309870 Matthew Broderick
+John_Travolta_1993.txt tet.1993 449071 Tom Hanks
+Kevin_Costner_1993.txt tet.1993 958161 Tim I Robbins
+Leonardo_DiCaprio_1996.txt tet.1996 134559 Mark Wahlberg
+Leonardo_DiCaprio_1999.txt tet.1999 60270  Christian Bale
+Matt_Damon_2008.txt tet.2008 88481 Sam Worthington
+Sean_Connery_2011.txt tet.2011 911917 Ian McKellen
+Sylvester_Stallone_1994.txt tet.1994 772886 Brad Pitt
+Tom_Hanks_1995.txt tet.1995 449071 Tom Cruise
+Tom_Selleck_1983.txt tet.1983 429077 Harrison I Ford
+Will_Smith_1998.txt tet.1998 931723 Keanu Reeves

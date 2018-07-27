@@ -1,0 +1,24 @@
+{NODE {FUNCTION (logistic,-2,1,1,1)}
+      {TYPE ()}
+      {CHILD (movie0) {NODE {FUNCTION (logistic,-3,2,2,2)}
+                            {TYPE (leading_actor(movie0,actor0))}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (large_budget(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (medium_budget(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (small_budget(movie0))}}}
+                      }
+      }
+      {CHILD (movie0) {NODE {FUNCTION (logistic,-3,2,2,2)}
+                            {TYPE (supporting_actor(movie0,actor0))}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (large_budget(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (medium_budget(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (small_budget(movie0))}}}
+                      }
+      }
+      {CHILD (movie0) {NODE {FUNCTION (logistic,-3,2,2,2)}
+                            {TYPE (movie2actor(movie0,actor0))}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (large_budget(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (medium_budget(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (small_budget(movie0))}}}
+                      }
+      }
+}

@@ -1,0 +1,27 @@
+{NODE {FUNCTION (logistic,-3,0.12)}
+      {TYPE ()}
+      {CHILD (movie0) {NODE {FUNCTION (logistic,-3,1.17,1.17,1.17,1.17,1.17,1.17,1.17,1.17,1.17,1.17,1.17,1.17,1.17,1.17,1.17,1.17,1.17,1.17,1.17,1.17)}
+                            {TYPE (movie2actor(movie0,actor0))}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Comedy(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Drama(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Romance(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Action(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Thriller(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Fantasy(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Sci-Fi(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Family(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Horror(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Crime(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Adventure(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Animation(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Music(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Mystery(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Biography(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (History(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Sport(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Musical(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (War(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Western(movie0))}}}
+                      }
+      }
+}

@@ -1,0 +1,7 @@
+Machine learning parts
+
+I + II - Introduction, performance, model selection, data preprocessing, KNN, Regression --> 2h + 3h
+III - Decision Trees, Perceptron (I) --> 3h
+IV + V - Perceptron (II), Logistic Regression, Support Vector Machines, Neural Networks (I) --> 2h + 3h
+VI + VII - Neural Networks (II), Clustering, PCA, Comparing Performance, Text --> 2h + 3h
+VIII - Exercises in R

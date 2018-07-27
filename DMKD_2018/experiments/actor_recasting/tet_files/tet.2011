@@ -1,0 +1,38 @@
+{NODE {FUNCTION (logistic,0,1,1)}
+      {TYPE()}
+      {CHILD (movie1,year0)
+               {NODE {FUNCTION (logistic,0,1)}
+                {TYPE (movie2actor(movie1,actor0),movie2year(movie1,year0),<=(year0,year2011),>(year0,year1991))}
+                 {CHILD (genre0)
+                 {NODE {FUNCTION (identity)}
+                 {TYPE (movie2genre(movie1,genre0),movie2genre(movie0,genre0))}
+              }
+           }
+         }
+      }
+      {CHILD () {NODE {FUNCTION (logistic,0,1,1,1)}
+                      {TYPE ()}
+                      {CHILD (movie1,year0) {NODE {FUNCTION (logistic,0,1,1,1)}
+                            {TYPE (leading_actor(movie1,actor0),movie2year(movie1,year0),<=(year0,year2011),>(year0,year1991))}
+                            {CHILD () {NODE {FUNCTION (identity)} {TYPE (large_budget(movie1))}}}
+                            {CHILD () {NODE {FUNCTION (identity)} {TYPE (medium_budget(movie1))}}}
+                            {CHILD () {NODE {FUNCTION (identity)} {TYPE (small_budget(movie1))}}}
+                        }
+                      }
+                      {CHILD (movie1,year0) {NODE {FUNCTION (logistic,0,1,1,1)}
+                            {TYPE (supporting_actor(movie1,actor0),movie2year(movie1,year0),<=(year0,year2011),>(year0,year1991))}
+                            {CHILD () {NODE {FUNCTION (identity)} {TYPE (large_budget(movie1))}}}
+                            {CHILD () {NODE {FUNCTION (identity)} {TYPE (medium_budget(movie1))}}}
+                            {CHILD () {NODE {FUNCTION (identity)} {TYPE (small_budget(movie1))}}}
+                        }
+                      }
+                      {CHILD (movie1,year0) {NODE {FUNCTION (logistic,0,1,1,1)}
+                            {TYPE (movie2actor(movie1,actor0),movie2year(movie1,year0),<=(year0,year2011),>(year0,year1991))}
+                            {CHILD () {NODE {FUNCTION (identity)} {TYPE (large_budget(movie1))}}}
+                            {CHILD () {NODE {FUNCTION (identity)} {TYPE (medium_budget(movie1))}}}
+                            {CHILD () {NODE {FUNCTION (identity)} {TYPE (small_budget(movie1))}}}
+                        }
+                      }
+                }
+      }
+}
