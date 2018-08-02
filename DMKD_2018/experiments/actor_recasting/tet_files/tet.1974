@@ -1,38 +1,56 @@
 {NODE {FUNCTION (logistic,0,1,1)}
       {TYPE()}
-      {CHILD (movie1,year0)
-               {NODE {FUNCTION (logistic,0,1)}
-                {TYPE (movie2actor(movie1,actor0),movie2year(movie1,year0),<=(year0,year1974),>(year0,year1954))}
-                 {CHILD (genre0)
-                 {NODE {FUNCTION (identity)}
-                 {TYPE (movie2genre(movie1,genre0),movie2genre(movie0,genre0))}
-              }
-           }
-         }
+      {CHILD () {NODE {FUNCTION (logistic,0,1)}
+      		      {TYPE ()}
+      		      {CHILD (movie0,year0) {NODE {FUNCTION (logistic,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)}
+                            {TYPE (movie2actor(movie0,actor0),movie2year(movie0,year0),<=(year0,year1974),>=(year0,year1954))}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Comedy(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Drama(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Romance(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Action(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Thriller(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Fantasy(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Sci-Fi(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Family(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Horror(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Crime(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Adventure(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Animation(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Music(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Mystery(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Biography(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (History(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Sport(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Musical(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (War(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (Western(movie0))}}}
+                      	}
+      		      }
+		}
       }
       {CHILD () {NODE {FUNCTION (logistic,0,1,1,1)}
-                      {TYPE ()}
-                      {CHILD (movie1,year0) {NODE {FUNCTION (logistic,0,1,1,1)}
-                            {TYPE (leading_actor(movie1,actor0),movie2year(movie1,year0),<=(year0,year1974),>(year0,year1954))}
-                            {CHILD () {NODE {FUNCTION (identity)} {TYPE (large_budget(movie1))}}}
-                            {CHILD () {NODE {FUNCTION (identity)} {TYPE (medium_budget(movie1))}}}
-                            {CHILD () {NODE {FUNCTION (identity)} {TYPE (small_budget(movie1))}}}
+      		      {TYPE ()}
+      		      {CHILD (movie0,year0) {NODE {FUNCTION (logistic,0,1,1,1)}
+                            {TYPE (leading_actor(movie0,actor0),movie2year(movie0,year0),<=(year0,year1974),>=(year0,year1954))}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (large_budget(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (medium_budget(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (small_budget(movie0))}}}
                         }
-                      }
-                      {CHILD (movie1,year0) {NODE {FUNCTION (logistic,0,1,1,1)}
-                            {TYPE (supporting_actor(movie1,actor0),movie2year(movie1,year0),<=(year0,year1974),>(year0,year1954))}
-                            {CHILD () {NODE {FUNCTION (identity)} {TYPE (large_budget(movie1))}}}
-                            {CHILD () {NODE {FUNCTION (identity)} {TYPE (medium_budget(movie1))}}}
-                            {CHILD () {NODE {FUNCTION (identity)} {TYPE (small_budget(movie1))}}}
+      		      }
+      		      {CHILD (movie0,year0) {NODE {FUNCTION (logistic,0,1,1,1)}
+                            {TYPE (supporting_actor(movie0,actor0),movie2year(movie0,year0),<=(year0,year1974),>=(year0,year1954))}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (large_budget(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (medium_budget(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (small_budget(movie0))}}}
                         }
-                      }
-                      {CHILD (movie1,year0) {NODE {FUNCTION (logistic,0,1,1,1)}
-                            {TYPE (movie2actor(movie1,actor0),movie2year(movie1,year0),<=(year0,year1974),>(year0,year1954))}
-                            {CHILD () {NODE {FUNCTION (identity)} {TYPE (large_budget(movie1))}}}
-                            {CHILD () {NODE {FUNCTION (identity)} {TYPE (medium_budget(movie1))}}}
-                            {CHILD () {NODE {FUNCTION (identity)} {TYPE (small_budget(movie1))}}}
+      		      }
+      		      {CHILD (movie0,year0) {NODE {FUNCTION (logistic,0,1,1,1)}
+                            {TYPE (movie2actor(movie0,actor0),movie2year(movie0,year0),<=(year0,year1974),>=(year0,year1954))}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (large_budget(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (medium_budget(movie0))}}}
+			    {CHILD () {NODE {FUNCTION (identity)} {TYPE (small_budget(movie0))}}}
                         }
-                      }
-                }
+      		      }
+		}
       }
 }
