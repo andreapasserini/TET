@@ -1,0 +1,5 @@
+(logistic,0,1)[(),
+		    [(paper0),(logistic,0,1)[(author_paper(author0,paper0)),
+		 	     [(paper1),(identity)[(paper_paper(paper1,paper0))]]
+		    ]]
+                 ]
