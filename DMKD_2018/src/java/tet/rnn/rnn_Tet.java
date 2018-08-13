@@ -1,13 +1,14 @@
 package tet.rnn;
 
 import java.util.*;
-import java.sql.*;
 import java.io.*;
 import tet.*;
+import java.lang.*;
 
 public class rnn_Tet extends Tet{
 
     ActivationFunction activation;
+    GradientTree gradient;
 
     public rnn_Tet()
     {
@@ -225,6 +226,213 @@ public class rnn_Tet extends Tet{
         return activation.forward(input);
     }
 
+    public float compute_d(Value tetvalue) throws Exception
+    {
+        if (tetvalue.getTopbool()) {
+            // Return 1 if it is a leaf
+            if (children.size() == 0) {
+                return 1;
+            }
+
+            // Initialize the input structure
+            Pair[][] input = new Pair[children.size()][];
+
+            // Iterate over the children
+            for (int i = 0; i < children.size(); i++) {
+
+                // Get the tet child
+                rnn_Tet tetchild = (rnn_Tet) children.elementAt(i).getSubTree();
+
+                // Get the multiset of the child
+                Multiset multiset = tetvalue.getMultisetAt(i);
+
+                // Initialize the multiset
+                input[i] = new Pair[multiset.getNumberOfElements()];
+
+                // Iterate over the values of the multiset
+                for (int j = 0; j < multiset.getNumberOfElements(); j++) {
+                    input[i][j] = new Pair<Float,Integer>(tetchild.compute_d(multiset.getValueAt(j)), multiset.getCountAt(j));
+                }
+            }
+            return activation.forward(input);
+
+        }
+        else{
+            return 0;
+        }
+    }
+
+    /* compute_d_value composes a tree of FloatValues which correspond to the
+     logistic evaluation of a tetvalue */
+    public FloatValue compute_d_value(Value tetvalue) throws Exception{
+        if (tetvalue.getTopbool()) {
+            // Return 1 if it is a leaf
+            if (children.size() == 0) {
+                return new FloatValue(1);
+            }
+
+            //System.out.println("Not leaf");
+            FloatValue logistic = new FloatValue();
+
+            // Initialize the input structure
+            Pair[][] input = new Pair[children.size()][];
+
+            // Iterate over the children
+            for (int i = 0; i < children.size(); i++) {
+
+                // Get the tet child
+                rnn_Tet tetchild = (rnn_Tet) children.elementAt(i).getSubTree();
+
+                // Get the multiset of the child
+                Multiset multiset = tetvalue.getMultisetAt(i);
+
+                // Initialize the multiset
+                input[i] = new Pair[multiset.getNumberOfElements()];
+
+                FloatMultiset fmultiset = new FloatMultiset();
+
+                // Iterate over the values of the multiset
+                for (int j = 0; j < multiset.getNumberOfElements(); j++) {
+                    FloatValue fv = tetchild.compute_d_value(multiset.getValueAt(j));
+                    fmultiset.add(fv, multiset.getCountAt(j));
+                    input[i][j] = new Pair<Float,Integer>(fv.getTopValue(), multiset.getCountAt(j));
+                }
+                logistic.multisets.add(fmultiset);
+            }
+
+            float evaluation = activation.forward(input);
+            logistic.setTopValue(evaluation);
+            return logistic;
+        }
+        else{
+            return new FloatValue(0);
+        }
+    }
+
+    /* Calculate the partial derivatives of the parameters and put it in
+        the gradient structure.*/
+    public void backpropagate(FloatValue tetvalue, float chain, GradientTree gradient){
+
+        if(children.size() == 0)
+            return;
+
+        /* activation compute the partial derivatives and returns the list
+        of chain values to pass to the children nodes*/
+        float[] nchains = activation.backward(tetvalue, chain, gradient);
+
+        for (int i = 0; i < children.size(); i++){
+            rnn_Tet tetchild = (rnn_Tet) children.elementAt(i).getSubTree();
+            GradientTree gradientchild = gradient.getSubtreeAt(i);
+            FloatMultiset multiset = tetvalue.getMultisetAt(i);
+
+            for (int j = 0; j < multiset.getNumberOfElements(); j++)
+                for (int k = 0; k < multiset.getCountAt(j); k++)
+                    tetchild.backpropagate(multiset.getValueAt(j), nchains[i], gradientchild);
+        }
+    }
+
+    /* Compute gradient creates the gradient structure and initialize the
+    backpropagation procedure */
+    public void compute_gradient(FloatValue[] values, float[] errorChain){
+        gradient = createGradientTree();
+
+        for (int i = 0; i < values.length; i++) {
+            float chain = errorChain[i] / values.length ;
+            backpropagate(values[i], chain, gradient);
+
+        }
+    }
+
+    /* Initialize the gradient structure. GradientTree has the same structure
+    as the rnn_Tet, each node contains the list of partial derivatives of the
+    parameters.*/
+    public GradientTree createGradientTree(){
+        if (isLeaf())
+            return new GradientTree(true);
+
+        GradientTree tree = new GradientTree(activation.getParametersNumber(), false);
+        for (int i = 0; i < children.size(); i++){
+            rnn_Tet child = (rnn_Tet) children.elementAt(i).getSubTree();
+            tree.addChild(child.createGradientTree());
+        }
+
+        return tree;
+    }
+
+    /* Initialize the optimization procedure*/
+    public void optimize(Optimizer optimizer){
+        optimizer.init();
+        optimizeParameters(optimizer, gradient);
+    }
+
+    /* Giving the optimizer and the gradient structure, update the parameters
+    values */
+    public void optimizeParameters(Optimizer optimizer, GradientTree gradient){
+        if (children.size() == 0)
+            return;
+
+        activation.optimizeParameters(optimizer, gradient);
+
+        for (int i = 0; i < children.size(); i++){
+            rnn_Tet tetchild = (rnn_Tet) children.elementAt(i).getSubTree();
+            GradientTree gradientchild = gradient.getSubtreeAt(i);
+            tetchild.optimizeParameters(optimizer, gradientchild);
+        }
+    }
+
+    public void setParameters(String parameters){
+        try {
+            parseParameters(new StringTokenizer(parameters));
+        }catch(Exception e){e.printStackTrace();}
+    }
+
+    public void parseParameters(StringTokenizer tokenizer) throws Exception{
+        /*String buf;
+        if ((buf = tokenizer.nextToken()).equals("("))
+            activation.setParameters(tokenizer);
+
+        for (int i = 0; i < children.size(); i++){
+            rnn_Tet tetchild = (rnn_Tet) children.elementAt(i).getSubTree();
+            tetchild.parseParameters(tokenizer);
+            buf = tokenizer.nextToken();
+        }
+        tokenizer.nextToken();*/
+        String buf;
+
+        //if (!(buf = tokenizer.nextToken("()")).equals("("))
+            //throw new Exception("Malformed parameters TET string, expected '(', found '" + buf + "'");
+
+        activation.setParameters(tokenizer.nextToken("()"));
+        if (isLeaf())
+            return;
+        for (int i = 0; i < children.size(); i++) {
+            rnn_Tet tetchild = (rnn_Tet) children.elementAt(i).getSubTree();
+            tetchild.parseParameters(tokenizer);
+        }
+    }
+
+    public String parametersToString(){
+        if (children.size() == 0)
+            return "( )";
+        String str = "(";
+        str += activation.parametersToString();
+        for (int i = 0; i < children.size(); i++){
+            rnn_Tet tetchild = (rnn_Tet) children.elementAt(i).getSubTree();
+            str += tetchild.parametersToString();
+        }
+        str += ")";
+        return str;
+    }
+
+    public void setRandomParameters(RandomWeight rw){
+        activation.setRandomParameters(rw);
+
+        for (int i = 0; i < children.size(); i++){
+            rnn_Tet childtet = (rnn_Tet) children.elementAt(i).getSubTree();
+            childtet.setRandomParameters(rw);
+        }
+    }
+
     public String Serialize(){
         
         StringBuffer buf = new StringBuffer(1024);
@@ -321,9 +529,10 @@ public class rnn_Tet extends Tet{
 
     public static void main(String[] args)
     {
-        
+
+
         rnn_TetCommandLineOptions options = new rnn_TetCommandLineOptions(args);
-        
+
         try
         {
             /* load discriminant tet from file */
@@ -332,21 +541,22 @@ public class rnn_Tet extends Tet{
             System.out.println("tetstring=" + tetstring);
 
             rnn_Tet tet = new rnn_Tet(tetstring);
-            
+
             System.out.println("Read rnn Tet string: " + tet.Serialize());
-            System.out.println("Tet Freevars = " + tet.freevars().toString());   
+            System.out.println("Tet Freevars = " + tet.freevars().toString());
 
             /* create mysql relational structure which uses TD BU procedure */
             MySQLRelStructure relstruct = new MySQLRelStructure(options.database, options.login, options.password, true);
-         
+
             /* create MySQLTestViewer if needed */
-            MySQLTestViewer testviewer = (options.srcdb != null && options.testviewconfigfile != null) ? 
-                new MySQLTestViewer(relstruct, options.srcdb, options.testviewconfigfile) : null;
+            MySQLTestViewer testviewer = (options.srcdb != null && options.testviewconfigfile != null) ?
+                    new MySQLTestViewer(relstruct, options.srcdb, options.testviewconfigfile) : null;
 
             Vector<TetHistogram> histos = new Vector<TetHistogram>();
 
-            /* parse object file and compute discriminant value for each object  */
-                FileReader in = new FileReader(options.objfile);
+            /* parse object file and compute discriminant value for each object
+             * */
+            FileReader in = new FileReader(options.objfile);
             StreamTokenizer st = new StreamTokenizer(in);
             st.eolIsSignificant(true);
             st.whitespaceChars(32,47);
@@ -370,18 +580,18 @@ public class rnn_Tet extends Tet{
                     objmap.put(var,new RelObject(val));
                     example += var + "=" + val + " ";
                 }while(st.nextToken() != StreamTokenizer.TT_EOL);
-                
+
                 System.out.println(example);
-                
+
                 /* add test view for current example if needed */
                 if(testviewer != null)
                     testviewer.addTestView(objmap);
-                                
+
                 if(options.compute_tet_histogram)
                 {
-                    histos.add(tet.computeTetHistogram(relstruct, objmap, 
-                                               options.histogram_bin_number).second());              
-                    out.write(histos.lastElement().toFormattedString()); 
+                    histos.add(tet.computeTetHistogram(relstruct, objmap,
+                            options.histogram_bin_number).second());
+                    out.write(histos.lastElement().toFormattedString());
                 }
                 else
                     /* print d value */
@@ -409,18 +619,18 @@ public class rnn_Tet extends Tet{
             for(int i = 0; i < histos.size(); i++)
             {
                 histos.elementAt(i).normalize();
-                out.write(histos.elementAt(i).toFormattedString()); 
+                out.write(histos.elementAt(i).toFormattedString());
             }
-                
+
             out.close();
             relstruct.Close();
         }
-        catch (Exception e)     
+        catch (Exception e)
         {
-            e.printStackTrace();        
-        }    
-    }
+            e.printStackTrace();
+        }
 
+    }
 }
 
 class rnn_TetCommandLineOptions {

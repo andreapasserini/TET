@@ -14,6 +14,13 @@ public class RandomWeight{
 	range = (float)0.01;
     }
 
+    public RandomWeight(int seed, float range)
+    {
+        rnd = new Random();
+        rnd.setSeed(seed);
+        this.range = range;
+    }
+
     public float nextWeight()
     {
 	return ((rnd.nextFloat()*2)-1)*range;
