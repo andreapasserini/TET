@@ -8,14 +8,17 @@ db=localhost/$1
 dbuser=$2
 dbpwd=$3
 
+# Setup classpath and libs
 rootdir=../../..
 srcdir=$rootdir/src/java
 classpath="$srcdir:$rootdir/lib/mysql.jar:$rootdir/lib/guava.jar"
 javalibs="-Djava.library.path=$rootdir/lib:"                                 
 javaoptions="-XX:-UseGCOverheadLimit -Xmx6G $javalibs"
 
+# TET file
 tetfile=tet-apc
 
+# Training/test splits
 trainfile=data.train
 testfile=data.test
 
