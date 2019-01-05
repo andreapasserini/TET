@@ -1,5 +1,0 @@
-(logistic,-1.3163711,0.0352229)[(),
-		    [(paper0),(logistic,-15.347582,4.0375524)[(author_paper(author0,paper0)),
-		 	     [(paper1),(identity)[(paper_paper(paper1,paper0))]]
-		    ]]
-                 ]
