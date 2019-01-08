@@ -5,7 +5,7 @@ then
 fi
 
 # Set the classpath and working directory
-rootdir=../..
+rootdir=../../..
 srcdir=$rootdir/src/java
 classpath="$srcdir:$rootdir/lib/mysql.jar:$rootdir/lib/guava.jar"
 javalibs="-Djava.library.path=$rootdir/lib:"                                 

@@ -22,7 +22,7 @@ public class TetParameterLearner {
         this.output = new FileWriter("parameter_learning.out");
     }
 
-    public TetParameterLearner(rnn_Tet tet, Dataset dataset, LossFunction loss, Optimizer optimizer, FileWriter out){
+    public TetParameterLearner(rnn_Tet tet, Dataset dataset, LossFunction loss, Optimizer optimizer, FileWriter out) throws IOException{
         this.tet = tet;
         this.dataset = dataset;
         this.loss = loss;
@@ -41,8 +41,6 @@ public class TetParameterLearner {
             float maxTarget = 0;
             if (normalized) {
                 maxTarget = dataset.getMaxTarget();
-                System.out.println("Max target value: " + maxTarget);
-                output.write("Max target value: " + maxTarget + "\n");
             }
 
             dataset.splitValidation(validationSize);
@@ -75,7 +73,8 @@ public class TetParameterLearner {
                    the max value of the dataset (in case of regression).*/
                 float[] trainEvaluations = new float[dataset.trainSize()];
                 float[] valEvaluations = new float[dataset.validationSize()];
-
+                
+                /*#################*/
                 /* Calculate the evaluations of the train set */
                 for (int j = 0; j < dataset.trainSize(); j++) {
                     Value value = dataset.getTrainValueAt(j);
@@ -88,6 +87,7 @@ public class TetParameterLearner {
 
                 /* Calculate the error of the train set */
                 float trainError = loss.calculateError(trainEvaluations, trainTargets);
+                
 
                 /* Calculate the evaluations of the validation set */
                 for (int j = 0; j < dataset.validationSize(); j++){
@@ -163,15 +163,14 @@ public class TetParameterLearner {
             output.write(testStats);*/
 
             if (normalized){
-                String testStats = "Test error RMSE:\t" + Math.sqrt(testerror) + "\n";
+                String testStats = "\nTest error RMSE:\t" + Math.sqrt(testerror) + "\n";
                 System.out.println(testStats);
                 output.write(testStats);
             }else{
-                String testStats = "Test error Cross Entropy:\t" + testerror + "\n";
+                String testStats = "\nTest error Cross Entropy:\t" + testerror + "\n";
                 System.out.println(testStats);
                 output.write(testStats);
             }
-
 
         }catch (Exception e) { e.printStackTrace(); }
     }
@@ -179,6 +178,7 @@ public class TetParameterLearner {
     public float test(boolean normalized){
         try {
             float maxTarget = dataset.getMaxTarget();
+
             float[] testTargets = dataset.getTestTargets();
             FloatValue[] testValues = new FloatValue[dataset.testSize()];
             float[] testEvaluations = new float[dataset.testSize()];
@@ -229,10 +229,10 @@ public class TetParameterLearner {
     }
 
     public void printConfusionMatrix(float[] evaluations, float[] targets) throws IOException {
-        int TT = 0;
-        int TF = 0;
-        int FT = 0;
-        int FF = 0;
+        int TP = 0;
+        int FN = 0;
+        int FP = 0;
+        int TN = 0;
         for (int i = 0; i < evaluations.length; i++){
             String t = String.valueOf(targets[i]);
             float ev = evaluations[i];
@@ -242,19 +242,21 @@ public class TetParameterLearner {
                 ev = 0;
             String e = String.valueOf(ev);
             if ("1.0".equals(t) && "1.0".equals(e))
-                TT += 1;
+                TP += 1;
             else if ("1.0".equals(t) && "0.0".equals(e))
-                TF += 1;
+                FN += 1;
             else if ("0.0".equals(t) && "1.0".equals(e))
-                FT += 1;
+                FP += 1;
             else if ("0.0".equals(t) && "0.0".equals(e))
-                FF += 1;
+                TN += 1;
         }
 
-        System.out.println("TT: " + TT + "\tTF: " + TF);
-        output.write("TT: " + TT + "\tTF: " + TF + "\n");
-        System.out.println("FT: " + FT + "\tFF: " + FF);
-        output.write("FT: " + FT + "\tFF: " + FF + "\n");
+        System.out.println("TP: " + TP + "\tFP: " + FP);
+        output.write("TP: " + TP + "\tFP: " + FP + "\n");
+        System.out.println("FN: " + FN + "\tTN: " + TN);
+        output.write("FN: " + FN + "\tTN: " + TN + "\n");
+        System.out.println("\nAccuracy: " + (float)(TP+TN)/(TP+FN+FP+TN));
+        output.write("\nAccuracy: " +(float)(TP+TN)/(TP+FN+FP+TN));
     }
 
     /*private float calculatePearson(float[] evaluations, float[] targets){
