@@ -74,7 +74,7 @@ public class BiblioClassification{
 	    TetHistogramHasher hasher = new TetHistogramHasher(options.tetfile, options.bins, options.threshold, 
 							       options.extra_mass_penalty, options.decay, options.marginalized_emd, options.add_count_distance,
 							       EMDNormalization.BOOLEAN,
-							       options.bucket_exploration_rate, options.K, options.random_seed, options.max_hash_tree_depth, options.max_bucket_size, options.plain_counts_distance_only);
+							       options.bucket_exploration_rate, options.K, options.random_seed, options.max_hash_tree_depth, options.max_bucket_size);
 
 	    long startTime = System.currentTimeMillis();
 	    TreeMap<Integer, TetHistogram> train_data = hasher.readData(options.trainfile,  relstruct, testviewer, trainsize);
